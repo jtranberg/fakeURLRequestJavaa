@@ -1,17 +1,37 @@
 const fakeRequest = (url) => {                                   //request url   ,  name const
     return new Promise((resolve, reject) => {
        setTimeout(() => {                                          //delay function
-         const rand = Math.random()                               //uint picker
-         if(rand < 0.7){                                          //arguments
-            reject();
-         } else {
-            resolve();
+         const pages = {                              //uint picker
+                '/users': [
+                    { id: 1, username: "Bilbo" },
+                    { id: 5, username: "Esmerelda" }
+                 ],
+                 '/about' : 'This is the about page!'
+            };
+            const data = pages [url]
+            if(data){
+            resolve({status: 200, data});
+            }   else {
+            reject({ status: 404});
          }
-       },3000);
+       },1000);
     });
 };
-fakeRequest().then(() => {                                        //rtesolve is success
+fakeRequest('/users')
+  .then((res) => { 
+    console.log('Status Code', res.status);
+    console.log('Data', res.data);                                         //rtesolve is success
     console.log('It worked!!');                                   //print
-}).catch(() => {                                                  //reject successful
+}).catch((res) => {
+    console.log(res.status);                                                  //reject successful
+    console.log('Still A success!!');
+});
+fakeRequest('/cats')
+  .then((res) => { 
+    console.log('Status Code', res.status);
+    console.log('Data', res.data);                                         //rtesolve is success
+    console.log('It worked!!');                                   //print
+}).catch((res) => {
+    console.log(res.status);                                                  //reject successful
     console.log('Still A success!!');
 });
